@@ -138,38 +138,7 @@ export default function HongKongCalendar() {
   }
   
   return (
-    <>
-      <style jsx>{`
-        @keyframes slide-in-right {
-          from {
-            transform: translateX(-100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-        
-        @keyframes slide-in-left {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-        
-        .animate-slide-in-right {
-          animation: slide-in-right 0.3s ease-out;
-        }
-        
-        .animate-slide-in-left {
-          animation: slide-in-left 0.3s ease-out;
-        }
-      `}</style>
+    <div>
       
       <div className={`min-h-screen p-4 transition-colors duration-300 ${
         isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
@@ -253,8 +222,8 @@ export default function HongKongCalendar() {
                     : 'transform translate-x-0 opacity-100'
                   : 'transform translate-x-0 opacity-100'
               }
-              ${animationPhase === 'sliding-in' && animationDirection === 'right' ? 'animate-slide-in-right' : ''}
-              ${animationPhase === 'sliding-in' && animationDirection === 'left' ? 'animate-slide-in-left' : ''}
+              ${animationPhase === 'sliding-in' && animationDirection === 'right' ? 'animate-pulse' : ''}
+              ${animationPhase === 'sliding-in' && animationDirection === 'left' ? 'animate-pulse' : ''}
             `}>
             {/* Day headers */}
             {daysOfWeek.map(day => (
@@ -362,9 +331,10 @@ export default function HongKongCalendar() {
         </div>
       </div>
     </div>
-    </>
   );
 }
+
+
 
 
 
