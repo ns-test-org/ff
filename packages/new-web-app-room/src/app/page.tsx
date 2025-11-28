@@ -121,15 +121,15 @@ export default function HongKongCalendar() {
   const monthHolidays = getMonthHolidays();
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
       isDarkMode 
         ? 'bg-gray-900 text-white' 
         : 'bg-gray-50 text-gray-900'
     }`}>
-      <div className="container mx-auto px-4 py-8">
+      <div className="w-full max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold">Hong Kong Holiday Calendar</h1>
+        <div className="flex justify-between items-center mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">Hong Kong Holiday Calendar</h1>
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
             className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${
@@ -143,11 +143,11 @@ export default function HongKongCalendar() {
         </div>
 
         {/* Calendar Navigation */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
           <button
             onClick={() => navigateMonth('prev')}
             disabled={isAnimating}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 transform hover:scale-105 active:scale-95 ${
               isDarkMode 
                 ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                 : 'bg-blue-500 hover:bg-blue-600 text-white'
@@ -156,7 +156,7 @@ export default function HongKongCalendar() {
             ← Previous
           </button>
           
-          <h2 className={`text-2xl font-semibold transition-all duration-300 ${
+          <h2 className={`text-lg sm:text-xl lg:text-2xl font-semibold transition-all duration-300 ${
             isAnimating ? 'scale-95 opacity-70' : 'scale-100 opacity-100'
           }`}>
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
@@ -165,7 +165,7 @@ export default function HongKongCalendar() {
           <button
             onClick={() => navigateMonth('next')}
             disabled={isAnimating}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 active:scale-95 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg font-medium text-sm sm:text-base transition-all duration-200 transform hover:scale-105 active:scale-95 ${
               isDarkMode 
                 ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                 : 'bg-blue-500 hover:bg-blue-600 text-white'
@@ -176,9 +176,9 @@ export default function HongKongCalendar() {
         </div>
 
         {/* Calendar Grid */}
-        <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-xl p-6 mb-6 overflow-hidden`}>
+        <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-xl p-4 sm:p-6 mb-6 overflow-hidden w-full`}>
           {/* Day Headers */}
-          <div className="grid grid-cols-7 gap-2 mb-4">
+          <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-4">
             {dayNames.map((day) => (
               <div
                 key={day}
@@ -192,7 +192,7 @@ export default function HongKongCalendar() {
           </div>
 
           {/* Calendar Days */}
-          <div className={`grid grid-cols-7 gap-2 transition-all duration-300 ${
+          <div className={`grid grid-cols-7 gap-1 sm:gap-2 transition-all duration-300 ${
             isAnimating 
               ? animationDirection === 'next' 
                 ? 'transform translate-x-full opacity-0' 
@@ -204,7 +204,7 @@ export default function HongKongCalendar() {
               return (
                 <div
                   key={index}
-                  className={`aspect-square flex flex-col items-center justify-center p-2 rounded-lg transition-all duration-200 transform hover:scale-105 hover:shadow-lg ${
+                  className={`aspect-square flex flex-col items-center justify-center p-1 sm:p-2 rounded-lg transition-all duration-200 transform hover:scale-105 hover:shadow-lg text-sm sm:text-base ${
                     day
                       ? holiday
                         ? isDarkMode
@@ -265,6 +265,15 @@ export default function HongKongCalendar() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
 
 
 
