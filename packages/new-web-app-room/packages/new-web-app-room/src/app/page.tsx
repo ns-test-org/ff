@@ -9,40 +9,40 @@ export default function HongKongCalendar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Hong Kong holidays for 2024 and 2025
-  const holidays: Record<string, { name: string; emoji: string }> = {
-    '2024-01-01': { name: "New Year's Day", emoji: '🎊' },
-    '2024-02-10': { name: 'Chinese New Year', emoji: '🧧' },
-    '2024-02-11': { name: 'Chinese New Year', emoji: '🧧' },
-    '2024-02-12': { name: 'Chinese New Year', emoji: '🧧' },
-    '2024-03-29': { name: 'Good Friday', emoji: '✝️' },
-    '2024-04-01': { name: 'Easter Monday', emoji: '🐰' },
-    '2024-04-04': { name: 'Ching Ming Festival', emoji: '🌸' },
-    '2024-05-01': { name: 'Labour Day', emoji: '⚒️' },
-    '2024-05-15': { name: "Buddha's Birthday", emoji: '🙏' },
-    '2024-06-10': { name: 'Dragon Boat Festival', emoji: '🐉' },
-    '2024-07-01': { name: 'HKSAR Establishment Day', emoji: '🇭🇰' },
-    '2024-09-18': { name: 'Mid-Autumn Festival', emoji: '🥮' },
-    '2024-10-01': { name: 'National Day', emoji: '🇨🇳' },
-    '2024-10-11': { name: 'Chung Yeung Festival', emoji: '🏔️' },
-    '2024-12-25': { name: 'Christmas Day', emoji: '🎄' },
-    '2024-12-26': { name: 'Boxing Day', emoji: '🎁' },
-    '2025-01-01': { name: "New Year's Day", emoji: '🎊' },
-    '2025-01-29': { name: 'Chinese New Year', emoji: '🧧' },
-    '2025-01-30': { name: 'Chinese New Year', emoji: '🧧' },
-    '2025-01-31': { name: 'Chinese New Year', emoji: '🧧' },
-    '2025-04-04': { name: 'Ching Ming Festival', emoji: '🌸' },
-    '2025-04-18': { name: 'Good Friday', emoji: '✝️' },
-    '2025-04-21': { name: 'Easter Monday', emoji: '🐰' },
-    '2025-05-01': { name: 'Labour Day', emoji: '⚒️' },
-    '2025-05-05': { name: "Buddha's Birthday", emoji: '🙏' },
-    '2025-05-31': { name: 'Dragon Boat Festival', emoji: '🐉' },
-    '2025-07-01': { name: 'HKSAR Establishment Day', emoji: '🇭🇰' },
-    '2025-09-06': { name: 'Mid-Autumn Festival', emoji: '🥮' },
-    '2025-10-01': { name: 'National Day', emoji: '🇨🇳' },
-    '2025-10-07': { name: 'Chung Yeung Festival', emoji: '🏔️' },
-    '2025-12-25': { name: 'Christmas Day', emoji: '🎄' },
-    '2025-12-26': { name: 'Boxing Day', emoji: '🎁' }
-  };
+  const holidays = [
+    { date: '2024-01-01', name: "New Year's Day", emoji: '🎊' },
+    { date: '2024-02-10', name: 'Chinese New Year', emoji: '🧧' },
+    { date: '2024-02-11', name: 'Chinese New Year', emoji: '🧧' },
+    { date: '2024-02-12', name: 'Chinese New Year', emoji: '🧧' },
+    { date: '2024-03-29', name: 'Good Friday', emoji: '✝️' },
+    { date: '2024-04-01', name: 'Easter Monday', emoji: '🐰' },
+    { date: '2024-04-04', name: 'Ching Ming Festival', emoji: '🌸' },
+    { date: '2024-05-01', name: 'Labour Day', emoji: '⚒️' },
+    { date: '2024-05-15', name: "Buddha's Birthday", emoji: '🙏' },
+    { date: '2024-06-10', name: 'Dragon Boat Festival', emoji: '🐉' },
+    { date: '2024-07-01', name: 'HKSAR Establishment Day', emoji: '🇭🇰' },
+    { date: '2024-09-18', name: 'Mid-Autumn Festival', emoji: '🥮' },
+    { date: '2024-10-01', name: 'National Day', emoji: '🇨🇳' },
+    { date: '2024-10-11', name: 'Chung Yeung Festival', emoji: '🏔️' },
+    { date: '2024-12-25', name: 'Christmas Day', emoji: '🎄' },
+    { date: '2024-12-26', name: 'Boxing Day', emoji: '🎁' },
+    { date: '2025-01-01', name: "New Year's Day", emoji: '🎊' },
+    { date: '2025-01-29', name: 'Chinese New Year', emoji: '🧧' },
+    { date: '2025-01-30', name: 'Chinese New Year', emoji: '🧧' },
+    { date: '2025-01-31', name: 'Chinese New Year', emoji: '🧧' },
+    { date: '2025-04-04', name: 'Ching Ming Festival', emoji: '🌸' },
+    { date: '2025-04-18', name: 'Good Friday', emoji: '✝️' },
+    { date: '2025-04-21', name: 'Easter Monday', emoji: '🐰' },
+    { date: '2025-05-01', name: 'Labour Day', emoji: '⚒️' },
+    { date: '2025-05-05', name: "Buddha's Birthday", emoji: '🙏' },
+    { date: '2025-05-31', name: 'Dragon Boat Festival', emoji: '🐉' },
+    { date: '2025-07-01', name: 'HKSAR Establishment Day', emoji: '🇭🇰' },
+    { date: '2025-09-06', name: 'Mid-Autumn Festival', emoji: '🥮' },
+    { date: '2025-10-01', name: 'National Day', emoji: '🇨🇳' },
+    { date: '2025-10-07', name: 'Chung Yeung Festival', emoji: '🏔️' },
+    { date: '2025-12-25', name: 'Christmas Day', emoji: '🎄' },
+    { date: '2025-12-26', name: 'Boxing Day', emoji: '🎁' }
+  ];
 
   const monthNames = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -80,17 +80,16 @@ export default function HongKongCalendar() {
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     const dayStr = String(day).padStart(2, '0');
     const dateKey = `${year}-${month}-${dayStr}`;
-    return holidays[dateKey] || null;
+    
+    return holidays.find(holiday => holiday.date === dateKey) || null;
   };
-
-
 
   const getMonthHolidays = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
     
-    return Object.entries(holidays).filter(([date]) => {
-      const [holidayYear, holidayMonth] = date.split('-');
+    return holidays.filter(holiday => {
+      const [holidayYear, holidayMonth] = holiday.date.split('-');
       return parseInt(holidayYear) === year && parseInt(holidayMonth) === month;
     });
   };
@@ -237,11 +236,11 @@ export default function HongKongCalendar() {
               Holidays in {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
             </h3>
             <div className="space-y-2">
-              {monthHolidays.map(([date, holiday]) => {
-                const [, , day] = date.split('-');
+              {monthHolidays.map((holiday) => {
+                const [, , day] = holiday.date.split('-');
                 return (
                   <div
-                    key={date}
+                    key={holiday.date}
                     className={`flex items-center space-x-3 p-3 rounded-lg ${
                       isDarkMode ? 'bg-gray-700' : 'bg-gray-50'
                     }`}
@@ -265,12 +264,3 @@ export default function HongKongCalendar() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
