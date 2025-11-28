@@ -44,6 +44,7 @@ const hongKongHolidays = {
 
 export default function HongKongCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [isDarkMode, setIsDarkMode] = useState(false);
   
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -107,14 +108,33 @@ export default function HongKongCalendar() {
   }
   
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className={`min-h-screen p-4 transition-colors duration-300 ${
+      isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+    }`}>
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className={`rounded-lg shadow-lg p-6 transition-colors duration-300 ${
+          isDarkMode ? 'bg-gray-800' : 'bg-white'
+        }`}>
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className={`text-3xl font-bold transition-colors duration-300 ${
+              isDarkMode ? 'text-white' : 'text-gray-800'
+            }`}>
               Hong Kong Holiday Calendar
             </h1>
+            
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className={`p-2 rounded-lg transition-all duration-300 ${
+                isDarkMode 
+                  ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-400' 
+                  : 'bg-gray-700 text-white hover:bg-gray-600'
+              }`}
+              title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            >
+              {isDarkMode ? '☀️' : '🌙'}
+            </button>
           </div>
           
           {/* Month Navigation */}
@@ -126,7 +146,9 @@ export default function HongKongCalendar() {
               ← Previous
             </button>
             
-            <h2 className="text-2xl font-semibold text-gray-700">
+            <h2 className={`text-2xl font-semibold transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-200' : 'text-gray-700'
+            }`}>
               {monthNames[currentMonth]} {currentYear}
             </h2>
             
@@ -142,7 +164,11 @@ export default function HongKongCalendar() {
           <div className="grid grid-cols-7 gap-1 mb-4">
             {/* Day headers */}
             {daysOfWeek.map(day => (
-              <div key={day} className="p-3 text-center font-semibold text-gray-600 bg-gray-100">
+              <div key={day} className={`p-3 text-center font-semibold transition-colors duration-300 ${
+                isDarkMode 
+                  ? 'text-gray-300 bg-gray-700' 
+                  : 'text-gray-600 bg-gray-100'
+              }`}>
                 {day}
               </div>
             ))}
@@ -152,21 +178,35 @@ export default function HongKongCalendar() {
               <div
                 key={index}
                 className={`
-                  p-3 h-24 border border-gray-200 
-                  ${day ? 'bg-white' : 'bg-gray-50'}
-                  ${isHoliday(day || 0) ? 'bg-red-100 border-red-300' : ''}
+                  p-3 h-24 border transition-colors duration-300
+                  ${isDarkMode ? 'border-gray-600' : 'border-gray-200'}
+                  ${day 
+                    ? isDarkMode ? 'bg-gray-800' : 'bg-white'
+                    : isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+                  }
+                  ${isHoliday(day || 0) 
+                    ? isDarkMode 
+                      ? 'bg-red-900 border-red-600' 
+                      : 'bg-red-100 border-red-300'
+                    : ''
+                  }
                 `}
               >
                 {day && (
                   <div>
                     <div className={`
-                      text-sm font-medium
-                      ${isHoliday(day) ? 'text-red-700' : 'text-gray-700'}
+                      text-sm font-medium transition-colors duration-300
+                      ${isHoliday(day) 
+                        ? isDarkMode ? 'text-red-300' : 'text-red-700'
+                        : isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                      }
                     `}>
                       {day}
                     </div>
                     {isHoliday(day) && (
-                      <div className="text-xs text-red-600 mt-1 leading-tight">
+                      <div className={`text-xs mt-1 leading-tight transition-colors duration-300 ${
+                        isDarkMode ? 'text-red-400' : 'text-red-600'
+                      }`}>
                         {getHolidayName(day)}
                       </div>
                     )}
@@ -177,15 +217,23 @@ export default function HongKongCalendar() {
           </div>
           
           {/* Holiday Legend */}
-          <div className="mt-6 p-4 bg-gray-50 rounded">
-            <h3 className="font-semibold text-gray-700 mb-2">
+          <div className={`mt-6 p-4 rounded transition-colors duration-300 ${
+            isDarkMode ? 'bg-gray-700' : 'bg-gray-50'
+          }`}>
+            <h3 className={`font-semibold mb-2 transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-200' : 'text-gray-700'
+            }`}>
               Holidays this month:
             </h3>
             {currentMonthHolidays.length > 0 ? (
               <ul className="space-y-1">
                 {currentMonthHolidays.map((holiday, index) => (
-                  <li key={index} className="text-sm text-gray-600">
-                    <span className="font-medium text-red-600">
+                  <li key={index} className={`text-sm transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
+                    <span className={`font-medium transition-colors duration-300 ${
+                      isDarkMode ? 'text-red-400' : 'text-red-600'
+                    }`}>
                       {new Date(holiday.date).getDate()}
                     </span>
                     {' - '}
@@ -194,7 +242,9 @@ export default function HongKongCalendar() {
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-gray-500">No holidays this month</p>
+              <p className={`text-sm transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-500'
+              }`}>No holidays this month</p>
             )}
           </div>
         </div>
@@ -202,4 +252,10 @@ export default function HongKongCalendar() {
     </div>
   );
 }
+
+
+
+
+
+
 
