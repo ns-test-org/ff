@@ -45,6 +45,8 @@ const hongKongHolidays = {
 export default function HongKongCalendar() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [animationDirection, setAnimationDirection] = useState<'left' | 'right'>('right');
   
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -85,13 +87,26 @@ export default function HongKongCalendar() {
   };
   
   const navigateMonth = (direction: 'prev' | 'next') => {
-    const newDate = new Date(currentDate);
-    if (direction === 'prev') {
-      newDate.setMonth(currentMonth - 1);
-    } else {
-      newDate.setMonth(currentMonth + 1);
-    }
-    setCurrentDate(newDate);
+    if (isAnimating) return; // Prevent multiple clicks during animation
+    
+    setIsAnimating(true);
+    setAnimationDirection(direction === 'prev' ? 'left' : 'right');
+    
+    // Start the slide out animation
+    setTimeout(() => {
+      const newDate = new Date(currentDate);
+      if (direction === 'prev') {
+        newDate.setMonth(currentMonth - 1);
+      } else {
+        newDate.setMonth(currentMonth + 1);
+      }
+      setCurrentDate(newDate);
+      
+      // End animation after slide in completes
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 300);
+    }, 150);
   };
   
   // Create calendar grid
@@ -141,27 +156,51 @@ export default function HongKongCalendar() {
           <div className="flex items-center justify-between mb-6">
             <button
               onClick={() => navigateMonth('prev')}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              disabled={isAnimating}
+              className={`
+                px-4 py-2 bg-blue-500 text-white rounded transition-all duration-200
+                ${isAnimating 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:bg-blue-600 hover:scale-105 active:scale-95'
+                }
+              `}
             >
               ← Previous
             </button>
             
-            <h2 className={`text-2xl font-semibold transition-colors duration-300 ${
-              isDarkMode ? 'text-gray-200' : 'text-gray-700'
-            }`}>
+            <h2 className={`
+              text-2xl font-semibold transition-all duration-300
+              ${isDarkMode ? 'text-gray-200' : 'text-gray-700'}
+              ${isAnimating ? 'scale-95 opacity-70' : 'scale-100 opacity-100'}
+            `}>
               {monthNames[currentMonth]} {currentYear}
             </h2>
             
             <button
               onClick={() => navigateMonth('next')}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              disabled={isAnimating}
+              className={`
+                px-4 py-2 bg-blue-500 text-white rounded transition-all duration-200
+                ${isAnimating 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:bg-blue-600 hover:scale-105 active:scale-95'
+                }
+              `}
             >
               Next →
             </button>
           </div>
           
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-1 mb-4">
+          <div className={`
+            grid grid-cols-7 gap-1 mb-4 transition-all duration-300 ease-in-out
+            ${isAnimating 
+              ? animationDirection === 'right' 
+                ? 'transform translate-x-8 opacity-50' 
+                : 'transform -translate-x-8 opacity-50'
+              : 'transform translate-x-0 opacity-100'
+            }
+          `}>
             {/* Day headers */}
             {daysOfWeek.map(day => (
               <div key={day} className={`p-3 text-center font-semibold transition-colors duration-300 ${
@@ -178,7 +217,7 @@ export default function HongKongCalendar() {
               <div
                 key={index}
                 className={`
-                  p-3 h-24 border transition-colors duration-300
+                  p-3 h-24 border transition-all duration-300 cursor-pointer
                   ${isDarkMode ? 'border-gray-600' : 'border-gray-200'}
                   ${day 
                     ? isDarkMode ? 'bg-gray-800' : 'bg-white'
@@ -189,6 +228,20 @@ export default function HongKongCalendar() {
                       ? 'bg-red-900 border-red-600' 
                       : 'bg-red-100 border-red-300'
                     : ''
+                  }
+                  ${day 
+                    ? 'hover:scale-105 hover:shadow-lg hover:z-10 relative' 
+                    : ''
+                  }
+                  ${isHoliday(day || 0) 
+                    ? isDarkMode
+                      ? 'hover:bg-red-800 hover:border-red-500'
+                      : 'hover:bg-red-50 hover:border-red-400'
+                    : day
+                      ? isDarkMode
+                        ? 'hover:bg-gray-700 hover:border-gray-500'
+                        : 'hover:bg-gray-50 hover:border-gray-300'
+                      : ''
                   }
                 `}
               >
@@ -252,6 +305,13 @@ export default function HongKongCalendar() {
     </div>
   );
 }
+
+
+
+
+
+
+
 
 
 
