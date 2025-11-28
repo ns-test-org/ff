@@ -47,6 +47,7 @@ export default function HongKongCalendar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [animationDirection, setAnimationDirection] = useState<'left' | 'right'>('right');
+  const [animationPhase, setAnimationPhase] = useState<'idle' | 'sliding-out' | 'sliding-in'>('idle');
   
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth();
@@ -99,9 +100,11 @@ export default function HongKongCalendar() {
     
     setIsAnimating(true);
     setAnimationDirection(direction === 'prev' ? 'left' : 'right');
+    setAnimationPhase('sliding-out');
     
-    // Start the slide out animation
+    // Phase 1: Slide out current calendar (300ms)
     setTimeout(() => {
+      // Update the date while calendar is off-screen
       const newDate = new Date(currentDate);
       if (direction === 'prev') {
         newDate.setMonth(currentMonth - 1);
@@ -110,11 +113,15 @@ export default function HongKongCalendar() {
       }
       setCurrentDate(newDate);
       
-      // End animation after slide in completes
+      // Phase 2: Start sliding in new calendar
+      setAnimationPhase('sliding-in');
+      
+      // Phase 3: Complete animation (300ms)
       setTimeout(() => {
+        setAnimationPhase('idle');
         setIsAnimating(false);
       }, 300);
-    }, 150);
+    }, 300);
   };
   
   // Create calendar grid
@@ -131,9 +138,42 @@ export default function HongKongCalendar() {
   }
   
   return (
-    <div className={`min-h-screen p-4 transition-colors duration-300 ${
-      isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
-    }`}>
+    <>
+      <style jsx>{`
+        @keyframes slide-in-right {
+          from {
+            transform: translateX(-100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        @keyframes slide-in-left {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        .animate-slide-in-right {
+          animation: slide-in-right 0.3s ease-out;
+        }
+        
+        .animate-slide-in-left {
+          animation: slide-in-left 0.3s ease-out;
+        }
+      `}</style>
+      
+      <div className={`min-h-screen p-4 transition-colors duration-300 ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-50'
+      }`}>
       <div className="max-w-4xl mx-auto">
         <div className={`rounded-lg shadow-lg p-6 transition-colors duration-300 ${
           isDarkMode ? 'bg-gray-800' : 'bg-white'
@@ -200,15 +240,22 @@ export default function HongKongCalendar() {
           </div>
           
           {/* Calendar Grid */}
-          <div className={`
-            grid grid-cols-7 gap-1 mb-4 transition-all duration-300 ease-in-out
-            ${isAnimating 
-              ? animationDirection === 'right' 
-                ? 'transform translate-x-8 opacity-50' 
-                : 'transform -translate-x-8 opacity-50'
-              : 'transform translate-x-0 opacity-100'
-            }
-          `}>
+          <div className="relative overflow-hidden mb-4">
+            <div className={`
+              grid grid-cols-7 gap-1 transition-all duration-300 ease-in-out
+              ${animationPhase === 'sliding-out' 
+                ? animationDirection === 'right' 
+                  ? 'transform translate-x-full opacity-0' 
+                  : 'transform -translate-x-full opacity-0'
+                : animationPhase === 'sliding-in'
+                  ? animationDirection === 'right'
+                    ? 'transform translate-x-0 opacity-100'
+                    : 'transform translate-x-0 opacity-100'
+                  : 'transform translate-x-0 opacity-100'
+              }
+              ${animationPhase === 'sliding-in' && animationDirection === 'right' ? 'animate-slide-in-right' : ''}
+              ${animationPhase === 'sliding-in' && animationDirection === 'left' ? 'animate-slide-in-left' : ''}
+            `}>
             {/* Day headers */}
             {daysOfWeek.map(day => (
               <div key={day} className={`p-3 text-center font-semibold transition-colors duration-300 ${
@@ -315,8 +362,14 @@ export default function HongKongCalendar() {
         </div>
       </div>
     </div>
+    </>
   );
 }
+
+
+
+
+
 
 
 
